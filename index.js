@@ -13,9 +13,7 @@ const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-domain.com', 'https://www.your-domain.com']
-    : 'http://localhost:3000',
+  origin: '*', // Temporarily allow all origins for testing
   credentials: true
 }));
 app.use(bodyParser.json());
