@@ -1,10 +1,36 @@
-exports.getEmployees = (req, res) => {
-    // Add logic to fetch employees
-    res.json([{ id: 1, name: 'John Doe', email: 'john@example.com' }]);
+const Employee = require('../models/Employee');
+
+exports.getEmployees = async (req, res) => {
+    try {
+        const employees = await Employee.find({});
+        res.json(employees);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
 };
 
-exports.createEmployee = (req, res) => {
-    const { name, email, position } = req.body;
-    // Add logic to create an employee
-    res.json({ message: 'Employee created', employee: { name, email, position } });
+exports.createEmployee = async (req, res) => {
+    try {
+        const { name, email, position, department, phoneNumber, address } = req.body;
+
+        // Check if employee with email already exists
+        let employee = await Employee.findOne({ email });
+        if (employee) {
+            return res.status(400).json({ message: 'Employee with this email already exists' });
+        }
+
+        // Create new employee
+        employee = await Employee.create({
+            name,
+            email,
+            position,
+            department,
+            phoneNumber,
+            address
+        });
+
+        res.status(201).json({ message: 'Employee created successfully', employee });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
 };
