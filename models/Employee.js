@@ -18,23 +18,15 @@ const employeeSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    phoneNumber: {
-        type: String
-    },
-    address: {
-        type: String
-    },
-    joiningDate: {
-        type: Date,
-        default: Date.now
-    },
-    status: {
+    phone: {
         type: String,
-        enum: ['active', 'inactive'],
-        default: 'active'
+        required: true
+    },
+    hireDate: {
+        type: Date,
+        required: true,
+        default: Date.now
     }
-}, {
-    timestamps: true
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('Employee', employeeSchema);
